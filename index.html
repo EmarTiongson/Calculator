@@ -10,37 +10,48 @@
   <body>
     <div class="calculator-container">
       <div class="display-container">
-        <input class="display" readonly value="0" />
+        <div class="display">0</div>
       </div>
       <div class="buttons">
         <div class="first-row">
-          <button class="clear-btn">AC</button>
-          <button class="pos-neg-btn">+/-</button>
-          <button class="percent-btn">%</button>
-          <button id="divide" class="divide-btn operator">&divide</button>
+          <button type="button" class="clear-btn" value="clear">AC</button>
+          <button type="button" class="pos-neg-btn" value="sign">+/-</button>
+          <button type="button" class="percent-btn" value="percent">%</button>
+          <button
+            type="button"
+            class="divide"
+            class="divide-btn operator"
+            value="/"
+          >
+            &divide
+          </button>
         </div>
         <div class="second-row">
-          <button class="seven-btn">7</button>
-          <button class="eight-btn">8</button>
-          <button class="nine-btn">9</button>
-          <button class="multiply-btn operator">&times</button>
+          <button type="button" class="seven-btn" value="7">7</button>
+          <button type="button" class="eight-btn" value="8">8</button>
+          <button type="button" class="nine-btn" value="9">9</button>
+          <button type="button" class="multiply-btn operator" value="*">
+            &times
+          </button>
         </div>
         <div class="third-row">
-          <button class="four-btn">4</button>
-          <button class="five-btn">5</button>
-          <button class="six-btn">6</button>
-          <button class="subtract-btn operator">-</button>
+          <button type="button" class="four-btn" value="4">4</button>
+          <button type="button" class="five-btn" value="5">5</button>
+          <button type="button" class="six-btn" value="6">6</button>
+          <button type="button" class="subtract-btn operator" value="-">
+            -
+          </button>
         </div>
         <div class="fourth-row">
-          <button class="one-btn">1</button>
-          <button class="two-btn">2</button>
-          <button class="three-btn">3</button>
-          <button class="add-btn operator">+</button>
+          <button type="button" class="one-btn" value="1">1</button>
+          <button type="button" class="two-btn" value="2">2</button>
+          <button type="button" class="three-btn" value="3">3</button>
+          <button type="button" class="add-btn operator" value="+">+</button>
         </div>
         <div class="last-row">
-          <button class="zero-btn">0</button>
-          <button class="decimal-btn">.</button>
-          <button class="equals-btn operator">=</button>
+          <button type="button" class="zero-btn" value="0">0</button>
+          <button type="button" class="decimal-btn" value=".">.</button>
+          <button type="button" class="equals-btn operator" value="=">=</button>
         </div>
       </div>
     </div>
