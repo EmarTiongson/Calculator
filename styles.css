@@ -31,7 +31,7 @@
   margin-bottom: 10px;
 }
 
-.display {
+#display {
   flex: 1;
   text-align: right;
   padding: 8px;
@@ -71,7 +71,8 @@ button:active {
   background-color: #ccc;
 }
 
-.operator {
+.operator,
+#equals {
   background-color: #055c9d;
 }
 

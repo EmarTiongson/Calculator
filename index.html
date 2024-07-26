@@ -4,54 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Project:Calculator</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="calculator-container">
       <div class="display-container">
-        <div class="display">0</div>
+        <div id="display"></div>
       </div>
       <div class="buttons">
         <div class="first-row">
-          <button type="button" class="clear-btn" value="clear">AC</button>
-          <button type="button" class="pos-neg-btn" value="sign">+/-</button>
-          <button type="button" class="percent-btn" value="percent">%</button>
-          <button
-            type="button"
-            class="divide"
-            class="divide-btn operator"
-            value="/"
-          >
+          <button type="button" class="clear" value="clear">AC</button>
+          <button type="button" class="sign" value="sign">+/-</button>
+          <button type="button" class="percent" value="percent">%</button>
+          <button type="button" id="divide" class="operator" value="/">
             &divide
           </button>
         </div>
         <div class="second-row">
-          <button type="button" class="seven-btn" value="7">7</button>
-          <button type="button" class="eight-btn" value="8">8</button>
-          <button type="button" class="nine-btn" value="9">9</button>
-          <button type="button" class="multiply-btn operator" value="*">
-            &times
-          </button>
+          <button type="button" class="operand" value="7">7</button>
+          <button type="button" class="operand" value="8">8</button>
+          <button type="button" class="operand" value="9">9</button>
+          <button type="button" class="operator" value="*">&times</button>
         </div>
         <div class="third-row">
-          <button type="button" class="four-btn" value="4">4</button>
-          <button type="button" class="five-btn" value="5">5</button>
-          <button type="button" class="six-btn" value="6">6</button>
-          <button type="button" class="subtract-btn operator" value="-">
-            -
-          </button>
+          <button type="button" class="operand" value="4">4</button>
+          <button type="button" class="operand" value="5">5</button>
+          <button type="button" class="operand" value="6">6</button>
+          <button type="button" class="operator" value="-">-</button>
         </div>
         <div class="fourth-row">
-          <button type="button" class="one-btn" value="1">1</button>
-          <button type="button" class="two-btn" value="2">2</button>
-          <button type="button" class="three-btn" value="3">3</button>
-          <button type="button" class="add-btn operator" value="+">+</button>
+          <button type="button" class="operand" value="1">1</button>
+          <button type="button" class="operand" value="2">2</button>
+          <button type="button" class="operand" value="3">3</button>
+          <button type="button" class="operator" value="+">+</button>
         </div>
         <div class="last-row">
-          <button type="button" class="zero-btn" value="0">0</button>
-          <button type="button" class="decimal-btn" value=".">.</button>
-          <button type="button" class="equals-btn operator" value="=">=</button>
+          <button type="button" class="zero-btn operand" value="0">0</button>
+          <button type="button" class="decimal" value=".">.</button>
+          <button type="button" id="equals" class="equals" value="=">=</button>
         </div>
       </div>
     </div>
