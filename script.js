@@ -9,8 +9,8 @@ const buttons = document.querySelectorAll("button");
 function updateDisplay() {
   const display = document.getElementById("display");
   display.innerText = displayValue;
-  if (displayValue.length > 30) {
-    display.innerText = displayValue.substring(0, 30);
+  if (displayValue.length > 20) {
+    display.innerText = displayValue.substring(0, 20);
   }
 }
 
@@ -76,8 +76,8 @@ function inputOperator(operator) {
       firstOperator
     );
     if (result === "invalid") {
-      displayValue = "I love you so much bebi!";
-      alert("Happy Girlfriend's day!");
+      displayValue = "error";
+      alert("Invalid operation, cannot divide by 0!");
     } else {
       displayValue = roundAccurately(result, 15).toString();
       firstOperand = displayValue;
@@ -115,8 +115,8 @@ function inputEquals() {
       secondOperator
     );
     if (result === "invalid") {
-      displayValue = "I love you so much bebi!";
-      alert("Happy Girlfriend's day!");
+      displayValue = "error";
+      alert("Invalid operation, cannot divide by 0!");
     } else {
       displayValue = roundAccurately(result, 15).toString();
       firstOperand = displayValue;
@@ -134,8 +134,8 @@ function inputEquals() {
       firstOperator
     );
     if (result === "invalid") {
-      displayValue = "I love you so much bebi!";
-      alert("Happy Girlfriend's day!");
+      displayValue = "error";
+      alert("Invalid operation, cannot divide by 0!");
     } else {
       displayValue = roundAccurately(result, 15).toString();
       firstOperand = displayValue;
