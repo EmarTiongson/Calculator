@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
   font-size: 30px;
+  font-weight: bold;
 }
 
 body {
@@ -13,15 +14,15 @@ body {
 
 .calculator-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 510px;
   margin: 0 auto;
-  height: 400px;
+  height: 410px;
   border: 2px solid black;
   display: flex;
   flex-direction: column;
   gap: 10px;
   background-color: #003060;
-  padding-top: 10px;
+  padding: 10px 5px;
 }
 
 .buttons {
@@ -59,39 +60,24 @@ button {
   background-color: #68bbe3;
 }
 
-.zero-btn {
-  flex: 2.2;
-}
-button:active {
-  background-color: #ccc;
-}
-
 .buttons > div {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-
 .first-row > button {
   background-color: #0e86d4;
 }
-.first-row > button:active {
-  background-color: #ccc;
-}
 
-.operator,
-#equals {
+.last,
+#divide {
   background-color: #055c9d;
 }
 
-#divide.operator {
-  background-color: #055c9d;
-}
-
-#divide.operator:active {
+button:active {
   background-color: #ccc;
 }
 
-.last-row {
-  margin-bottom: 10px;
+#divide:active {
+  background-color: #ccc;
 }

@@ -1,194 +1,181 @@
+let firstNumber = "";
+let secondNumber = "";
+let currentOperator = "";
+let isError = false; // Flag to indicate an error state
+
+// Functions for basic operations
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  if (b === 0) {
+    alert("Invalid operation, cannot divid by zero.");
+    isError = true; // Set error flag
+    return "Error";
+  }
+  return a / b;
+}
+
+function percentage(a) {
+  return a / 100;
+}
+
+function changeSign(a) {
+  return a * -1;
+}
+
+// Function to perform the operation and round the result
+function operate(operator, a, b) {
+  if (isError) return "Error"; // Return error if flag is set
+
+  a = parseFloat(a);
+  b = parseFloat(b);
+  let result;
+
+  switch (operator) {
+    case "+":
+      result = add(a, b);
+      break;
+    case "-":
+      result = subtract(a, b);
+      break;
+    case "*":
+      result = multiply(a, b);
+      break;
+    case "/":
+      result = divide(a, b);
+      break;
+    default:
+      return null;
+  }
+
+  // Check if result is a number and round it, otherwise return result directly
+  if (typeof result === "number") {
+    return parseFloat(result.toFixed(10));
+  } else {
+    return result;
+  }
+}
+
+// Variable to store the current display value
 let displayValue = "0";
-let firstOperand = null;
-let secondOperand = null;
-let firstOperator = null;
-let secondOperator = null;
-let result = null;
-const buttons = document.querySelectorAll("button");
 
+// Function to update the display
 function updateDisplay() {
-  const display = document.getElementById("display");
-  display.innerText = displayValue;
-  if (displayValue.length > 20) {
-    display.innerText = displayValue.substring(0, 20);
-  }
+  const display = document.querySelector("#display");
+  display.textContent = displayValue;
 }
 
-updateDisplay();
+// Flag to check if the next number is coming after an operator
+let awaitingNextNumber = false;
 
-function clickButton() {
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", function () {
-      if (buttons[i].classList.contains("operand")) {
-        inputOperand(buttons[i].value);
-        updateDisplay();
-      } else if (buttons[i].classList.contains("operator")) {
-        inputOperator(buttons[i].value);
-      } else if (buttons[i].classList.contains("equals")) {
-        inputEquals();
-        updateDisplay();
-      } else if (buttons[i].classList.contains("decimal")) {
-        inputDecimal(buttons[i].value);
-        updateDisplay();
-      } else if (buttons[i].classList.contains("percent")) {
-        inputPercent(displayValue);
-        updateDisplay();
-      } else if (buttons[i].classList.contains("sign")) {
-        inputSign(displayValue);
-        updateDisplay();
-      } else if (buttons[i].classList.contains("clear")) clearDisplay();
-      updateDisplay();
-    });
-  }
-}
-
-clickButton();
-
-function inputOperand(operand) {
-  if (firstOperator === null) {
-    if (displayValue === "0" || displayValue === 0) {
-      //1st click - handles first operand input
-      displayValue = operand;
-    } else if (displayValue === firstOperand) {
-      //starts new operation after inputEquals()
-      displayValue = operand;
-    } else {
-      displayValue += operand;
-    }
+// Add event listeners to number buttons and decimal point button
+document.querySelectorAll(".button").forEach((button) => {
+  if (!isNaN(button.textContent) || button.textContent === ".") {
+    button.addEventListener("click", handleNumberClick);
   } else {
-    //3rd/5th click - inputs to secondOperand
-    if (displayValue === firstOperand) {
-      displayValue = operand;
-    } else {
-      displayValue += operand;
-    }
+    button.addEventListener("click", handleOperatorClick);
   }
-}
+});
 
-function inputOperator(operator) {
-  if (firstOperator != null && secondOperator === null) {
-    //4th click - handles input of second operator
-    secondOperator = operator;
-    secondOperand = displayValue;
-    result = operate(
-      Number(firstOperand),
-      Number(secondOperand),
-      firstOperator
-    );
-    if (result === "invalid") {
-      displayValue = "error";
-      alert("Invalid operation, cannot divide by 0!");
-    } else {
-      displayValue = roundAccurately(result, 15).toString();
-      firstOperand = displayValue;
-    }
-    result = null;
-  } else if (firstOperator != null && secondOperator != null) {
-    //6th click - new secondOperator
-    secondOperand = displayValue;
-    result = operate(
-      Number(firstOperand),
-      Number(secondOperand),
-      secondOperator
-    );
-    secondOperator = operator;
-    displayValue = roundAccurately(result, 15).toString();
-    firstOperand = displayValue;
-    result = null;
+// Function to handle number and decimal point button clicks
+function handleNumberClick(event) {
+  const buttonValue = event.target.textContent;
+
+  if (isError) {
+    // Reset if there's an error and user starts new input
+    displayValue = buttonValue;
+    isError = false;
   } else {
-    //2nd click - handles first operator input
-    firstOperator = operator;
-    firstOperand = displayValue;
-  }
-}
-
-function inputEquals() {
-  //hitting equals doesn't display undefined before operate()
-  if (firstOperator === null) {
-    displayValue = displayValue;
-  } else if (secondOperator != null) {
-    //handles final result
-    secondOperand = displayValue;
-    result = operate(
-      Number(firstOperand),
-      Number(secondOperand),
-      secondOperator
-    );
-    if (result === "invalid") {
-      displayValue = "error";
-      alert("Invalid operation, cannot divide by 0!");
+    // If the displayValue is '0' or we are awaiting a new number after an operator, replace it
+    if (displayValue === "0" || awaitingNextNumber) {
+      displayValue = buttonValue;
+      awaitingNextNumber = false; // Reset flag
     } else {
-      displayValue = roundAccurately(result, 15).toString();
-      firstOperand = displayValue;
-      secondOperand = null;
-      firstOperator = null;
-      secondOperator = null;
-      result = null;
-    }
-  } else {
-    //handles first operation
-    secondOperand = displayValue;
-    result = operate(
-      Number(firstOperand),
-      Number(secondOperand),
-      firstOperator
-    );
-    if (result === "invalid") {
-      displayValue = "error";
-      alert("Invalid operation, cannot divide by 0!");
-    } else {
-      displayValue = roundAccurately(result, 15).toString();
-      firstOperand = displayValue;
-      secondOperand = null;
-      firstOperator = null;
-      secondOperator = null;
-      result = null;
+      // If a decimal point is clicked and already exists in the displayValue, do nothing
+      if (buttonValue === "." && displayValue.includes(".")) return;
+      displayValue += buttonValue; // Append number or decimal point to displayValue
     }
   }
+
+  updateDisplay();
 }
 
-function inputDecimal(dot) {
-  if (displayValue === firstOperand || displayValue === secondOperand) {
+// Function to handle operator button clicks
+function handleOperatorClick(event) {
+  const buttonValue = event.target.textContent;
+
+  if (buttonValue === "=") {
+    if (currentOperator && !awaitingNextNumber) {
+      secondNumber = displayValue;
+      displayValue = operate(
+        currentOperator,
+        firstNumber,
+        secondNumber
+      ).toString();
+      if (displayValue === "Error") {
+        isError = true; // Set error flag if there's an error
+      } else {
+        firstNumber = displayValue;
+      }
+      currentOperator = "";
+      awaitingNextNumber = true;
+    }
+  } else if (buttonValue === "C") {
+    firstNumber = "";
+    secondNumber = "";
+    currentOperator = "";
     displayValue = "0";
-    displayValue += dot;
-  } else if (!displayValue.includes(dot)) {
-    displayValue += dot;
-  }
-}
-
-function inputPercent(num) {
-  displayValue = (num / 100).toString();
-}
-
-function inputSign(num) {
-  displayValue = (num * -1).toString();
-}
-
-function clearDisplay() {
-  displayValue = "0";
-  firstOperand = null;
-  secondOperand = null;
-  firstOperator = null;
-  secondOperator = null;
-  result = null;
-}
-
-function operate(x, y, op) {
-  if (op === "+") {
-    return x + y;
-  } else if (op === "-") {
-    return x - y;
-  } else if (op === "*") {
-    return x * y;
-  } else if (op === "/") {
-    if (y === 0) {
-      return "invalid";
+    isError = false; // Reset error flag
+  } else if (buttonValue === "←") {
+    if (displayValue.length > 1) {
+      displayValue = displayValue.slice(0, -1);
     } else {
-      return x / y;
+      displayValue = "0";
     }
+  } else if (buttonValue === "+/-") {
+    displayValue = changeSign(displayValue).toString();
+  } else if (buttonValue === "%") {
+    displayValue = percentage(displayValue).toString();
+  } else {
+    if (currentOperator && !awaitingNextNumber) {
+      secondNumber = displayValue;
+      displayValue = operate(
+        currentOperator,
+        firstNumber,
+        secondNumber
+      ).toString();
+      if (displayValue === "Error") {
+        isError = true; // Set error flag if there's an error
+      } else {
+        firstNumber = displayValue;
+      }
+    } else {
+      firstNumber = displayValue;
+    }
+    currentOperator =
+      buttonValue === "×" ? "*" : buttonValue === "÷" ? "/" : buttonValue;
+    awaitingNextNumber = true;
   }
+
+  // Format the display value to avoid overflow if there's no error
+  if (!isError) {
+    displayValue = parseFloat(displayValue)
+      .toFixed(10)
+      .replace(/\.?0+$/, "");
+  }
+
+  updateDisplay();
 }
 
-function roundAccurately(num, places) {
-  return parseFloat(Math.round(num + "e" + places) + "e-" + places);
-}
+// Initial display update
+updateDisplay();
