@@ -1,7 +1,6 @@
 let firstNumber = "";
 let secondNumber = "";
 let currentOperator = "";
-let isError = false; // Flag to indicate an error state
 
 // Functions for basic operations
 function add(a, b) {
@@ -18,8 +17,7 @@ function multiply(a, b) {
 
 function divide(a, b) {
   if (b === 0) {
-    alert("Invalid operation, cannot divid by zero.");
-    isError = true; // Set error flag
+    alert("Error: Cannot divide by zero");
     return "Error";
   }
   return a / b;
@@ -35,8 +33,6 @@ function changeSign(a) {
 
 // Function to perform the operation and round the result
 function operate(operator, a, b) {
-  if (isError) return "Error"; // Return error if flag is set
-
   a = parseFloat(a);
   b = parseFloat(b);
   let result;
@@ -91,20 +87,14 @@ document.querySelectorAll(".button").forEach((button) => {
 function handleNumberClick(event) {
   const buttonValue = event.target.textContent;
 
-  if (isError) {
-    // Reset if there's an error and user starts new input
+  // If the displayValue is '0' or we are awaiting a new number after an operator, replace it
+  if (displayValue === "0" || awaitingNextNumber) {
     displayValue = buttonValue;
-    isError = false;
+    awaitingNextNumber = false; // Reset flag
   } else {
-    // If the displayValue is '0' or we are awaiting a new number after an operator, replace it
-    if (displayValue === "0" || awaitingNextNumber) {
-      displayValue = buttonValue;
-      awaitingNextNumber = false; // Reset flag
-    } else {
-      // If a decimal point is clicked and already exists in the displayValue, do nothing
-      if (buttonValue === "." && displayValue.includes(".")) return;
-      displayValue += buttonValue; // Append number or decimal point to displayValue
-    }
+    // If a decimal point is clicked and already exists in the displayValue, do nothing
+    if (buttonValue === "." && displayValue.includes(".")) return;
+    displayValue += buttonValue; // Append number or decimal point to displayValue
   }
 
   updateDisplay();
@@ -122,21 +112,16 @@ function handleOperatorClick(event) {
         firstNumber,
         secondNumber
       ).toString();
-      if (displayValue === "Error") {
-        isError = true; // Set error flag if there's an error
-      } else {
-        firstNumber = displayValue;
-      }
+      firstNumber = displayValue;
       currentOperator = "";
       awaitingNextNumber = true;
     }
-  } else if (buttonValue === "C") {
+  } else if (buttonValue === "AC") {
     firstNumber = "";
     secondNumber = "";
     currentOperator = "";
     displayValue = "0";
-    isError = false; // Reset error flag
-  } else if (buttonValue === "←") {
+  } else if (buttonValue === "Del") {
     if (displayValue.length > 1) {
       displayValue = displayValue.slice(0, -1);
     } else {
@@ -154,11 +139,7 @@ function handleOperatorClick(event) {
         firstNumber,
         secondNumber
       ).toString();
-      if (displayValue === "Error") {
-        isError = true; // Set error flag if there's an error
-      } else {
-        firstNumber = displayValue;
-      }
+      firstNumber = displayValue;
     } else {
       firstNumber = displayValue;
     }
@@ -167,12 +148,10 @@ function handleOperatorClick(event) {
     awaitingNextNumber = true;
   }
 
-  // Format the display value to avoid overflow if there's no error
-  if (!isError) {
-    displayValue = parseFloat(displayValue)
-      .toFixed(10)
-      .replace(/\.?0+$/, "");
-  }
+  // Format the display value to avoid overflow
+  displayValue = parseFloat(displayValue)
+    .toFixed(10)
+    .replace(/\.?0+$/, "");
 
   updateDisplay();
 }
